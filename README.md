@@ -28,7 +28,7 @@ Environment Variables – Secure configuration management
 
 Employers can create and manage job postings
 
-Job seekers can apply to jobs
+Jobseekers can apply to jobs
 
 Admins can approve or reject jobs
 
