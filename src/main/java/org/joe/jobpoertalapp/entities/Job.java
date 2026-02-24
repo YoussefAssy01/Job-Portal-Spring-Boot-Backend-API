@@ -1,11 +1,10 @@
 package org.joe.jobpoertalapp.entities;
 
 import jakarta.persistence.*;
-import org.joe.jobpoertalapp.enums.JobStatus;
+import org.joe.jobpoertalapp.enums.Status;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,7 @@ public class Job {
     @Column(precision = 12, scale = 2)
     private BigDecimal salary;
     @Column(nullable = false, length = 3,columnDefinition = "CHAR(3)")
-    private JobStatus status = JobStatus.PEN;
+    private Status status = Status.PEN;
     @Column(nullable = false)
     private LocalDateTime postedAt = LocalDateTime.now();
     @ManyToOne()
@@ -80,11 +79,11 @@ public class Job {
         this.salary = salary;
     }
 
-    public JobStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(JobStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

@@ -1,7 +1,7 @@
 package org.joe.jobpoertalapp.entities;
 
 import jakarta.persistence.*;
-import org.joe.jobpoertalapp.enums.JobStatus;
+import org.joe.jobpoertalapp.enums.Status;
 
 @Entity
 @Table(name = "application",schema = "dbo")
@@ -17,7 +17,7 @@ public class Application {
     private JobSeeker jobSeeker;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 3,columnDefinition = "CHAR(3)")
-    private JobStatus status = JobStatus.PEN; // default in Java
+    private Status status = Status.PEN; // default in Java
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class Application {
         this.jobSeeker = jobSeeker;
     }
 
-    public JobStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(JobStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
