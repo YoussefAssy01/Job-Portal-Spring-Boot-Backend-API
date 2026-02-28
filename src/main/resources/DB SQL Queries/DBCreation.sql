@@ -45,8 +45,8 @@ BEGIN TRY
     job_id BIGINT NOT NULL,
     job_seeker_id BIGINT NOT NULL,
     status char(3) NOT NULL DEFAULT 'PEN',
-    CONSTRAINT fk_app_job FOREIGN KEY (job_id) REFERENCES Job(id),
-    CONSTRAINT fk_app_seeker FOREIGN KEY (job_seeker_id) REFERENCES Job_seeker(id),
+    CONSTRAINT fk_app_job FOREIGN KEY (job_id) REFERENCES Job(id) on update cascade on delete cascade,
+    CONSTRAINT fk_app_seeker FOREIGN KEY (job_seeker_id) REFERENCES Job_seeker(id) on update cascade on delete cascade,
     CONSTRAINT uq_job_seeker UNIQUE (job_id, job_seeker_id),
     CONSTRAINT chk_app_status CHECK (status IN ('PEN', 'APP', 'REJ'))
 )

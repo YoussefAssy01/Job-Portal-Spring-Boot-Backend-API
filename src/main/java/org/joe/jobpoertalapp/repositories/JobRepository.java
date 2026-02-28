@@ -15,4 +15,5 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findByStatusAndLocationAndTitle(Status status, String location, String title);
     List<Job> findByStatusAndLocationAndTitleAndPostedAtAfter(Status status, String location, String title, LocalDateTime date);
     List<Job> findByEmployerId(Long id);
+    List<Job> findAllOrderByStatusAsc();
 }
