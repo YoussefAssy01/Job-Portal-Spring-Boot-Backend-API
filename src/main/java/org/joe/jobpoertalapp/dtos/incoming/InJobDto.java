@@ -1,4 +1,4 @@
-package org.joe.jobpoertalapp.dtos;
+package org.joe.jobpoertalapp.dtos.incoming;
 
 import java.math.BigDecimal;
 

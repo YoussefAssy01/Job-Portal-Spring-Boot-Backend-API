@@ -1,4 +1,4 @@
-package org.joe.jobpoertalapp.dtos;
+package org.joe.jobpoertalapp.dtos.outgoing;
 
 import org.joe.jobpoertalapp.enums.Status;
 

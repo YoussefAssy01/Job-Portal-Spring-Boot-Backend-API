@@ -1,7 +1,7 @@
 package org.joe.jobpoertalapp.services;
 
-import org.joe.jobpoertalapp.dtos.InJobDto;
-import org.joe.jobpoertalapp.dtos.OutJobDto;
+import org.joe.jobpoertalapp.dtos.incoming.InJobDto;
+import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
 import org.joe.jobpoertalapp.entities.Job;
 import org.joe.jobpoertalapp.enums.Status;
 import org.joe.jobpoertalapp.repositories.EmployerRepository;
