@@ -4,27 +4,27 @@ use JobPortal;
 BEGIN TRANSACTION;
 
 BEGIN TRY
-	create table Employer(
+	create table employer(
 		id BIGINT IDENTITY(1,1) primary key,
 		name nvarchar(50) not null,
 		email nvarchar(100) unique not null,
 		company_name nvarchar(100),
 		info NVARCHAR(MAX)
 	)
-	create table Job_seeker(
+	create table job_seeker(
 		id BIGINT IDENTITY(1,1) primary key,
 		name nvarchar(50) not null,
 		email nvarchar(100) unique not null,
 		resume_link nvarchar(100)
 	)
 
-	create table Admin(
+	create table admin(
 		id BIGINT IDENTITY(1,1) primary key,
 		name nvarchar(50) not null,
 		email nvarchar(100) unique not null
 	)
 
-	create table Job(
+	create table job(
 		id BIGINT IDENTITY(1,1) primary key,
 		title nvarchar(50) not null,
 		description nvarchar(150),
@@ -40,7 +40,7 @@ BEGIN TRY
 		CONSTRAINT chk_job_status CHECK (status IN ('PEN', 'APP', 'REJ'))
 )
 
-	CREATE TABLE Application (
+	CREATE TABLE application (
     id BIGINT IDENTITY(1,1) PRIMARY KEY,
     job_id BIGINT NOT NULL,
     job_seeker_id BIGINT NOT NULL,
