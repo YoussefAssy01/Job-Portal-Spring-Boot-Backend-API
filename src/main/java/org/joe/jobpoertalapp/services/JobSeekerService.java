@@ -29,10 +29,6 @@ public class JobSeekerService {
         return jobService.getAvailableJobsByTitleAndLocation(title,location);
     }
 
-    public List<OutJobDto> getAvailableJobsByTitleAndLocationAndDate(String title, String location, LocalDateTime date){
-        return jobService.getAvailableJobsByTitleAndLocationAndDate(title,location,date);
-    }
-
     public List<OutApplicationDto> getMyApplications(Long jobSeekerId) {
         return applicationService.viewApplicationByJobSeekerId(jobSeekerId);
     }
