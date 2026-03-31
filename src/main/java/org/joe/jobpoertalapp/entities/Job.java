@@ -21,10 +21,11 @@ public class Job {
     @Column(precision = 12, scale = 2)
     private BigDecimal salary;
     @Column(nullable = false, length = 3,columnDefinition = "CHAR(3)")
+    @Enumerated(EnumType.STRING)
     private Status status = Status.PEN;
     @Column(nullable = false)
     private LocalDateTime postedAt = LocalDateTime.now();
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employer_id",nullable = false)
     private Employer employer;
 

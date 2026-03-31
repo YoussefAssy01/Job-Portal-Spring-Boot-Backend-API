@@ -3,10 +3,12 @@ package org.joe.jobpoertalapp.services;
 import org.joe.jobpoertalapp.dtos.incoming.InApplicationDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutApplicationDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class JobSeekerService {
     private JobService jobService;
     private ApplicationService applicationService;

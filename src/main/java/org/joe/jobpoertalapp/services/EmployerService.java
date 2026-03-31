@@ -3,9 +3,11 @@ package org.joe.jobpoertalapp.services;
 import org.joe.jobpoertalapp.dtos.incoming.InJobDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutApplicationDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EmployerService {
     private JobService jobService;
     private ApplicationService applicationService;

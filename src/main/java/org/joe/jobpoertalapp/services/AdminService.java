@@ -1,9 +1,11 @@
 package org.joe.jobpoertalapp.services;
 
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AdminService {
     private JobService jobService;
     public AdminService(JobService jobService) {
