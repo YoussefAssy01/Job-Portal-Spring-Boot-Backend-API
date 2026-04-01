@@ -9,10 +9,10 @@ public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", nullable = false)
     private Job job;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_seeker_id", nullable = false)
     private JobSeeker jobSeeker;
     @Enumerated(EnumType.STRING)
