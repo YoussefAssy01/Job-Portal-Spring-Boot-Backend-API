@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.joe.jobpoertalapp.enums.Status;
 
 @Entity
-@Table(name = "application",schema = "dbo")
+@Table(name = "application")
 public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

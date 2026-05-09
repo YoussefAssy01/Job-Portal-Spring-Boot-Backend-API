@@ -1,67 +1,74 @@
 use JobPortal;
 
-
 BEGIN TRANSACTION;
 
 BEGIN TRY
-	create table employer(
-		id BIGINT IDENTITY(1,1) primary key,
-		name nvarchar(50) not null,
-		email nvarchar(100) unique not null,
-		company_name nvarchar(100),
-		info NVARCHAR(MAX)
-	)
-	create table job_seeker(
-		id BIGINT IDENTITY(1,1) primary key,
-		name nvarchar(50) not null,
-		email nvarchar(100) unique not null,
-		resume_link nvarchar(100)
-	)
 
-	create table admin(
-		id BIGINT IDENTITY(1,1) primary key,
-		name nvarchar(50) not null,
-		email nvarchar(100) unique not null
-	)
-
-	create table job(
-		id BIGINT IDENTITY(1,1) primary key,
-		title nvarchar(50) not null,
-		description nvarchar(150),
-		location nvarchar(100) not null,
-		salary DECIMAL(12,2) default 0,
-		status char(3) not null default 'PEN',
-		employer_id bigint not null,
-		posted_at DATETIME NOT NULL DEFAULT GETDATE(),
-		CONSTRAINT fk_job_employer FOREIGN KEY (employer_id)
-        REFERENCES Employer(id)
-		on update cascade
-        ON DELETE CASCADE,
-		CONSTRAINT chk_job_status CHECK (status IN ('PEN', 'APP', 'REJ'))
+create table users(
+                      id BIGINT IDENTITY(1,1) primary key,
+                      name nvarchar(50) not null,
+                      email nvarchar(100) unique not null,
+                      username nvarchar(50) unique not null,
+                      password VARCHAR(100)
+)
+create table employer(
+                         id bigint primary key,
+                         company_name nvarchar(100),
+                         info NVARCHAR(MAX),
+                         CONSTRAINT fk_user_employer FOREIGN KEY (id)
+                         REFERENCES users(id)
+)
+create table job_seeker(
+                           id BIGINT primary key,
+                           resume_link nvarchar(100),
+                           CONSTRAINT fk_user_jobseeker FOREIGN KEY (id)
+                           REFERENCES users(id)
 )
 
-	CREATE TABLE application (
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    job_id BIGINT NOT NULL,
-    job_seeker_id BIGINT NOT NULL,
-    status char(3) NOT NULL DEFAULT 'PEN',
-    CONSTRAINT fk_app_job FOREIGN KEY (job_id) REFERENCES Job(id) on update cascade on delete cascade,
-    CONSTRAINT fk_app_seeker FOREIGN KEY (job_seeker_id) REFERENCES Job_seeker(id) on update cascade on delete cascade,
-    CONSTRAINT uq_job_seeker UNIQUE (job_id, job_seeker_id),
-    CONSTRAINT chk_app_status CHECK (status IN ('PEN', 'APP', 'REJ'))
+create table admin(
+                      id BIGINT primary key,
+                      CONSTRAINT fk_user_admin FOREIGN KEY (id)
+                      REFERENCES users(id)
 )
 
-	CREATE INDEX idx_job_location_posted ON Job(location, posted_at);
-	CREATE INDEX idx_Application_Jobseekerid ON Application(job_seeker_id);
-	CREATE INDEX idx_Application_Jobid ON Application(job_id);
+create table job(
+                    id BIGINT IDENTITY(1,1) primary key,
+                    title nvarchar(50) not null,
+                    description nvarchar(150),
+                    location nvarchar(100) not null,
+                    salary DECIMAL(12,2) default 0,
+                    status char(3) not null default 'PEN',
+                    employer_id bigint not null,
+                    posted_at DATETIME NOT NULL DEFAULT GETDATE(),
+                    CONSTRAINT fk_job_employer FOREIGN KEY (employer_id)
+                        REFERENCES Employer(id)
+                        on update cascade
+                        ON DELETE CASCADE,
+                    CONSTRAINT chk_job_status CHECK (status IN ('PEN', 'APP', 'REJ'))
+)
 
-    COMMIT TRANSACTION;
-    PRINT 'DB created successfully.';
+CREATE TABLE application (
+                             id BIGINT IDENTITY(1,1) PRIMARY KEY,
+                             job_id BIGINT NOT NULL,
+                             job_seeker_id BIGINT NOT NULL,
+                             status char(3) NOT NULL DEFAULT 'PEN',
+                             CONSTRAINT fk_app_job FOREIGN KEY (job_id) REFERENCES Job(id) on update cascade on delete cascade,
+                             CONSTRAINT fk_app_seeker FOREIGN KEY (job_seeker_id) REFERENCES Job_seeker(id) on update cascade on delete cascade,
+                             CONSTRAINT uq_job_seeker UNIQUE (job_id, job_seeker_id),
+                             CONSTRAINT chk_app_status CHECK (status IN ('PEN', 'APP', 'REJ'))
+)
+
+CREATE INDEX idx_job_location_posted ON Job(location, posted_at);
+CREATE INDEX idx_Application_Jobseekerid ON Application(job_seeker_id);
+CREATE INDEX idx_Application_Jobid ON Application(job_id);
+
+COMMIT TRANSACTION;
+PRINT 'DB created successfully.';
 END TRY
 BEGIN CATCH
-    ROLLBACK TRANSACTION; 
+ROLLBACK TRANSACTION;
     PRINT 'failed to create DB and rolled back.';
-    PRINT ERROR_MESSAGE(); 
+    PRINT ERROR_MESSAGE();
 END CATCH;
 
 
