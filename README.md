@@ -24,6 +24,8 @@ Microsoft SQL Server – Relational database
 
 Environment Variables – Secure configuration management
 
+Spring Security – Authentication & Authorization 
+
 ⚙️ Core Features
 
 Employers can create and manage job postings
@@ -46,3 +48,4 @@ Transaction management for atomic operations
 - Spring Data JPA
 - Microsoft SQL Server
 - RESTful API design
+- Spring Security
