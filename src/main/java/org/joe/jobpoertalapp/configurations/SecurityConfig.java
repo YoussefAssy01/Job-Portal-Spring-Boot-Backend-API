@@ -20,7 +20,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        http.authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/employer/**").hasRole("EMPLOYER")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/jobseeker/**").hasRole("JOBSEEKER")
+                        .anyRequest().authenticated())
         .httpBasic(withDefaults());
         return http.build();
     }
