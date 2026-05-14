@@ -1,5 +1,6 @@
 package org.joe.jobpoertalapp.filters;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +31,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String username;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
              token = authHeader.substring(7);
-             username = jwtUtil.extractUsername(token);
+             try{
+                 username = jwtUtil.extractUsername(token);
+             }catch(ExpiredJwtException e){
+                 System.out.println("JWT Token is expired");
+                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                 response.getWriter().write("JWT token expired");
+                 filterChain.doFilter(request,response);
+                 return ;
+             }
+
              if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                  UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
                  if (jwtUtil.validateToken(token)){
