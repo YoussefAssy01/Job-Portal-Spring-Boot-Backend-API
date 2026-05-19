@@ -1,8 +1,12 @@
 package org.joe.jobpoertalapp.controllers;
 
-import org.joe.jobpoertalapp.dtos.incoming.InAuthenticationRequest;
+import org.joe.jobpoertalapp.dtos.incoming.InLoginRequest;
+import org.joe.jobpoertalapp.dtos.incoming.InSignupRequest;
+import org.joe.jobpoertalapp.dtos.outgoing.OutSignupRequest;
 import org.joe.jobpoertalapp.entities.User;
+import org.joe.jobpoertalapp.services.CustomUserDetailsService;
 import org.joe.jobpoertalapp.util.JWTUtil;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,13 +19,15 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    private final CustomUserDetailsService customUserDetailsService;
+    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil,CustomUserDetailsService customUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
-    @PostMapping
-    public String generateToken(@RequestBody InAuthenticationRequest request) {
+    @PostMapping("/login")
+    public String generateToken(@RequestBody InLoginRequest request) {
 
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
@@ -38,5 +44,15 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             return "Bad Credentials";
         }
+        catch (Exception e) {
+            return e.getMessage();
+        }
     }
+    @PostMapping("/signup")
+    public ResponseEntity<OutSignupRequest> signup(@RequestBody InSignupRequest request) {
+        return ResponseEntity.ok(customUserDetailsService.addUser(request));
+    };
+
+
+
 }
