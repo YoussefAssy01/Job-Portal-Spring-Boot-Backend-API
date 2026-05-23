@@ -21,9 +21,9 @@ public class EmployerController {
         this.employerService = employerService;
     }
 
-    @GetMapping("/{id}/jobs")
-    public ResponseEntity<List<OutJobDto>> getJobsForEmployer(@PathVariable Long id){
-        return ResponseEntity.ok(employerService.getMyJobs(id));
+    @GetMapping("/me/jobs")
+    public ResponseEntity<List<OutJobDto>> getMyJobs(){
+        return ResponseEntity.ok(employerService.getMyJobs());
     }
 
     @GetMapping("/jobs/{id}/applications")
