@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiError(
                         "INVALID_JSON",
-                        "Malformed or invalid request body",
+                        "Bad Jason request",
                         400
                 ));
     }
@@ -89,24 +89,29 @@ public class GlobalExceptionHandler {
                         400
                 ));
     }
-    //Method pars failed
+    //Method pars failed the constraint
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiError> handleConstraintViolation(ConstraintViolationException ex) {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiError(
                         "INVALID_PARAMETER",
-                        ex.getMessage(),
+                        "Constraint violation",
                         400
                 ));
     }
     //Wrong datatype for method
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiError> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String requiredType = ex.getRequiredType() != null
+                ? ex.getRequiredType().getSimpleName()
+                : "valid type";
+
+        String message = "Parameter '" + ex.getName() + "' must be of type " + requiredType;
         return ResponseEntity.badRequest()
                 .body(new ApiError(
                         "INVALID_PARAMETER_TYPE",
-                        "Invalid par type",
+                        message,
                         400
                 ));
     }
