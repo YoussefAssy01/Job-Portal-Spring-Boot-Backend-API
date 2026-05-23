@@ -4,6 +4,7 @@ import org.joe.jobpoertalapp.dtos.incoming.InJobDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutApplicationDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
 import org.joe.jobpoertalapp.services.EmployerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,33 +18,34 @@ public class EmployerController {
     }
 
     @GetMapping("/{id}/jobs")
-    public List<OutJobDto> getJobsForEmployer(@PathVariable Long id){
-        return employerService.getMyJobs(id);
+    public ResponseEntity<List<OutJobDto>> getJobsForEmployer(@PathVariable Long id){
+        return ResponseEntity.ok(employerService.getMyJobs(id));
     }
 
     @GetMapping("/jobs/{id}/applications")
-    public List<OutApplicationDto> getApplicationsByJobId(@PathVariable Long id){
-        return employerService.getApplicationsByJobId(id);
+    public ResponseEntity<List<OutApplicationDto>> getApplicationsByJobId(@PathVariable Long id){
+        return ResponseEntity.ok(employerService.getApplicationsByJobId(id));
     }
 
     @PutMapping("/applications/{id}/approve")
-    public void approveApplication(@PathVariable Long id){
-        employerService.approveApplication(id);
+    public ResponseEntity<OutApplicationDto> approveApplication(@PathVariable Long id){
+        return ResponseEntity.ok(employerService.approveApplication(id));
     }
 
     @PutMapping("/applications/{id}/reject")
-    public void rejectApplication(@PathVariable Long id){
-        employerService.rejectApplication(id);
+    public ResponseEntity<OutApplicationDto> rejectApplication(@PathVariable Long id){
+        return ResponseEntity.ok(employerService.rejectApplication(id));
     }
 
     @DeleteMapping("/jobs/{id}")
-    public void deleteJob(@PathVariable Long id){
+    public ResponseEntity<Void> deleteJob(@PathVariable Long id){
         employerService.deleteJob(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/jobs")
-    public void postJob(@RequestBody InJobDto inJobDto, @PathVariable Long id){
-        employerService.postJob(inJobDto, id);
+    public ResponseEntity<OutJobDto> postJob(@RequestBody InJobDto inJobDto, @PathVariable Long id){
+        return ResponseEntity.ok(employerService.postJob(inJobDto, id));
     }
 
 

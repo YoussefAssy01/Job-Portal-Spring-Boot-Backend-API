@@ -37,8 +37,8 @@ public class JobSeekerService {
         applicationService.deleteApplication(id);
     }
 
-    public void createApplication(InApplicationDto inApplicationDto){
-        applicationService.createApplication(inApplicationDto);
+    public OutApplicationDto createApplication(InApplicationDto inApplicationDto){
+        return applicationService.createApplication(inApplicationDto);
     }
 
 }

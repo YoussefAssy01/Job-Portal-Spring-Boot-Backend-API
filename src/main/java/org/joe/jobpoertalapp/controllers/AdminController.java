@@ -2,6 +2,7 @@ package org.joe.jobpoertalapp.controllers;
 
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
 import org.joe.jobpoertalapp.services.AdminService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,30 +16,30 @@ public class AdminController {
     }
 
     @GetMapping("/jobs")
-    public List<OutJobDto> getJobs(){
-        return adminService.getAllJobs();
+    public ResponseEntity<List<OutJobDto>> getJobs(){
+        List<OutJobDto> jobs = adminService.getAllJobs();
+        return ResponseEntity.ok(jobs);
     }
 
     @GetMapping("/jobs/pending")
-    public List<OutJobDto> getPendingJobs(){
-        return adminService.getPendingJobs();
+    public ResponseEntity<List<OutJobDto>> getPendingJobs(){
+        List<OutJobDto> jobs = adminService.getPendingJobs();
+        return ResponseEntity.ok(jobs);
     }
 
     @DeleteMapping("/jobs/{id}")
-    public void deleteJob(@PathVariable Long id){
+    public ResponseEntity<Void> deleteJob(@PathVariable Long id){
         adminService.deleteJob(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/jobs/{id}/approve")
-    public void approveJob(@PathVariable Long id){
-        adminService.approveJob(id);
+    public ResponseEntity<OutJobDto> approveJob(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.approveJob(id));
     }
 
     @PutMapping("/jobs/{id}/reject")
-    public void rejectJob(@PathVariable Long id){
-        adminService.rejectJob(id);
+    public ResponseEntity<OutJobDto> rejectJob(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.rejectJob(id));
     }
-
-
-
 }

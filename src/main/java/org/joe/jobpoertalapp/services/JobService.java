@@ -76,19 +76,21 @@ public class JobService {
     }
 
     @Transactional
-    public void approveJob(Long id) {
+    public OutJobDto approveJob(Long id) {
         Job job =jobRepository.findById(id).orElseThrow();
         job.setStatus(Status.APP);
+        return mapEntityToDto(job);
     }
 
     @Transactional
-    public void rejectJob(Long id) {
+    public OutJobDto rejectJob(Long id) {
         Job job =jobRepository.findById(id).orElseThrow();
         job.setStatus(Status.REJ);
+        return mapEntityToDto(job);
     }
 
     @Transactional
-    public void postJob(InJobDto inJobDto,Long employerId) {
+    public OutJobDto postJob(InJobDto inJobDto,Long employerId) {
         Job newJob = new Job();
         newJob.setTitle(inJobDto.title());
         newJob.setDescription(inJobDto.description());
@@ -98,6 +100,7 @@ public class JobService {
         newJob.setPostedAt(LocalDateTime.now());
         newJob.setEmployer(employerRepository.findById(employerId).orElseThrow());
         jobRepository.save(newJob);
+        return mapEntityToDto(newJob);
     }
 
     private OutJobDto mapEntityToDto(Job job) {

@@ -38,15 +38,17 @@ public class ApplicationService {
     }
 
     @Transactional
-    public void approveApplication(Long id) {
+    public OutApplicationDto approveApplication(Long id) {
         Application application = applicationRepository.findById(id).orElseThrow();
         application.setStatus(Status.APP);
+        return mapEntityToDto(application);
     }
 
     @Transactional
-    public void rejectApplication(Long id) {
+    public OutApplicationDto rejectApplication(Long id) {
         Application application = applicationRepository.findById(id).orElseThrow();
         application.setStatus(Status.REJ);
+        return mapEntityToDto(application);
     }
 
     public void deleteApplication(Long id) {
@@ -54,12 +56,13 @@ public class ApplicationService {
     }
 
     @Transactional
-    public void createApplication(InApplicationDto inApplicationDto) {
+    public OutApplicationDto createApplication(InApplicationDto inApplicationDto) {
         Application application = new Application();
         application.setStatus(Status.PEN);
         application.setJob(jobRepository.findById(inApplicationDto.jobId()).orElseThrow());
         application.setJobSeeker(jobSeekerRepository.findById(inApplicationDto.jobSeekerId()).orElseThrow());
         applicationRepository.save(application);
+        return mapEntityToDto(application);
     }
 
 

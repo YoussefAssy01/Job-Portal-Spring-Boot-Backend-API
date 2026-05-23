@@ -12,12 +12,12 @@ public class AdminService {
         this.jobService = jobService;
     }
 
-    public void approveJob(Long jobId){
-        jobService.approveJob(jobId);
+    public OutJobDto approveJob(Long jobId){
+        return jobService.approveJob(jobId);
     }
 
-    public void rejectJob(Long jobId){
-        jobService.rejectJob(jobId);
+    public OutJobDto rejectJob(Long jobId){
+        return jobService.rejectJob(jobId);
     }
 
     public void deleteJob(Long jobId){

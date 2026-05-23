@@ -16,8 +16,8 @@ public class EmployerService {
         this.applicationService = applicationService;
     }
 
-    public void postJob(InJobDto inJobDto, Long employerId){
-        jobService.postJob(inJobDto,employerId);
+    public OutJobDto postJob(InJobDto inJobDto, Long employerId){
+        return jobService.postJob(inJobDto,employerId);
     }
 
     public void deleteJob(Long id){
@@ -32,12 +32,12 @@ public class EmployerService {
         return applicationService.viewApplicationByJobId(jobId);
     }
 
-    public void approveApplication(Long id){
-        applicationService.approveApplication(id);
+    public OutApplicationDto approveApplication(Long id){
+        return applicationService.approveApplication(id);
     }
 
-    public void rejectApplication(Long id){
-        applicationService.rejectApplication(id);
+    public OutApplicationDto rejectApplication(Long id){
+        return applicationService.rejectApplication(id);
     }
 
 }

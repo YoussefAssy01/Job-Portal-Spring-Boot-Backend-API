@@ -6,6 +6,7 @@ import org.joe.jobpoertalapp.dtos.outgoing.OutSignupRequest;
 import org.joe.jobpoertalapp.entities.User;
 import org.joe.jobpoertalapp.services.CustomUserDetailsService;
 import org.joe.jobpoertalapp.util.JWTUtil;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,9 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String generateToken(@RequestBody InLoginRequest request) {
+    public ResponseEntity<String> generateToken(@RequestBody @NonNull InLoginRequest request) {
 
-        try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
             String username = authentication.getName();
@@ -39,20 +39,12 @@ public class AuthController {
                     .next()
                     .getAuthority();
             Long id = ((User)authentication.getPrincipal()).getId();
-            return jwtUtil.generateToken(username, id, role);
+            return ResponseEntity.ok(jwtUtil.generateToken(username, id, role));
 
-        } catch (BadCredentialsException e) {
-            return "Bad Credentials";
-        }
-        catch (Exception e) {
-            return e.getMessage();
-        }
     }
     @PostMapping("/signup")
     public ResponseEntity<OutSignupRequest> signup(@RequestBody InSignupRequest request) {
         return ResponseEntity.ok(customUserDetailsService.addUser(request));
     };
-
-
 
 }
