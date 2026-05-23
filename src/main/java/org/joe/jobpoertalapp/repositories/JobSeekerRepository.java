@@ -4,7 +4,9 @@ import org.joe.jobpoertalapp.entities.JobSeeker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface JobSeekerRepository extends JpaRepository<JobSeeker, Long> {
-    JobSeeker findByEmail(String email);
+    Optional<JobSeeker> findByEmail(String email);
 }
