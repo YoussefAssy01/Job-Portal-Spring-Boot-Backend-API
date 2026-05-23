@@ -3,10 +3,12 @@ package org.joe.jobpoertalapp.controllers;
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
 import org.joe.jobpoertalapp.services.AdminService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
