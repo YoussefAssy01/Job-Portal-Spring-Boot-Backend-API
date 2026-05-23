@@ -7,6 +7,8 @@ import org.joe.jobpoertalapp.entities.Employer;
 import org.joe.jobpoertalapp.entities.JobSeeker;
 import org.joe.jobpoertalapp.entities.User;
 import org.joe.jobpoertalapp.enums.Role;
+import org.joe.jobpoertalapp.exceptions.ResourceNotFoundException;
+import org.joe.jobpoertalapp.exceptions.ValidationException;
 import org.joe.jobpoertalapp.repositories.UserDetailsRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,8 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDetailsRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username+" not found"));
+    public UserDetails loadUserByUsername(String username) throws ResourceNotFoundException {
+        return userDetailsRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(username+" username not found"));
     }
 
     public OutSignupRequest addUser(InSignupRequest request) {
@@ -45,7 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             user = jobSeeker;
         }
         else {
-            throw new IllegalArgumentException("invalid role");
+            throw new ValidationException("invalid role");
         }
         user.setUsername(request.username());
         user.setPassword(passwordEncoder.encode(request.password()));

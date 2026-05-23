@@ -4,6 +4,7 @@ import org.joe.jobpoertalapp.dtos.incoming.InJobDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
 import org.joe.jobpoertalapp.entities.Job;
 import org.joe.jobpoertalapp.enums.Status;
+import org.joe.jobpoertalapp.exceptions.ResourceNotFoundException;
 import org.joe.jobpoertalapp.repositories.EmployerRepository;
 import org.joe.jobpoertalapp.repositories.JobRepository;
 import org.springframework.stereotype.Service;
@@ -72,19 +73,20 @@ public class JobService {
     }
 
     public void deleteJob(Long id) {
-        jobRepository.deleteById(id);
+        if(jobRepository.existsById(id))
+            jobRepository.deleteById(id);
     }
 
     @Transactional
     public OutJobDto approveJob(Long id) {
-        Job job =jobRepository.findById(id).orElseThrow();
+        Job job =jobRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id+" of job not found"));
         job.setStatus(Status.APP);
         return mapEntityToDto(job);
     }
 
     @Transactional
     public OutJobDto rejectJob(Long id) {
-        Job job =jobRepository.findById(id).orElseThrow();
+        Job job =jobRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id+" of job not found"));
         job.setStatus(Status.REJ);
         return mapEntityToDto(job);
     }
@@ -98,7 +100,7 @@ public class JobService {
         newJob.setSalary(inJobDto.salary());
         newJob.setStatus(Status.PEN);
         newJob.setPostedAt(LocalDateTime.now());
-        newJob.setEmployer(employerRepository.findById(employerId).orElseThrow());
+        newJob.setEmployer(employerRepository.findById(employerId).orElseThrow(() -> new ResourceNotFoundException(employerId+" of employer not found")));
         jobRepository.save(newJob);
         return mapEntityToDto(newJob);
     }

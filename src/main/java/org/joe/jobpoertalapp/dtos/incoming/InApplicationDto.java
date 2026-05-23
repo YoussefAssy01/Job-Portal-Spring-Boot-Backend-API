@@ -1,4 +1,6 @@
 package org.joe.jobpoertalapp.dtos.incoming;
 
-public record InApplicationDto(Long jobId,Long jobSeekerId) {
+import jakarta.validation.constraints.NotBlank;
+
+public record InApplicationDto(@NotBlank Long jobId,@NotBlank Long jobSeekerId) {
 }

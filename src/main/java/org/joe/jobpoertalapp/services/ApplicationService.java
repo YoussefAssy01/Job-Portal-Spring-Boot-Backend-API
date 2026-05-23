@@ -4,6 +4,7 @@ import org.joe.jobpoertalapp.dtos.incoming.InApplicationDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutApplicationDto;
 import org.joe.jobpoertalapp.entities.Application;
 import org.joe.jobpoertalapp.enums.Status;
+import org.joe.jobpoertalapp.exceptions.ResourceNotFoundException;
 import org.joe.jobpoertalapp.repositories.ApplicationRepository;
 import org.joe.jobpoertalapp.repositories.JobRepository;
 import org.joe.jobpoertalapp.repositories.JobSeekerRepository;
@@ -39,28 +40,29 @@ public class ApplicationService {
 
     @Transactional
     public OutApplicationDto approveApplication(Long id) {
-        Application application = applicationRepository.findById(id).orElseThrow();
+        Application application = applicationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id+" of application not found"));
         application.setStatus(Status.APP);
         return mapEntityToDto(application);
     }
 
     @Transactional
     public OutApplicationDto rejectApplication(Long id) {
-        Application application = applicationRepository.findById(id).orElseThrow();
+        Application application = applicationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id+" of application not found"));
         application.setStatus(Status.REJ);
         return mapEntityToDto(application);
     }
 
     public void deleteApplication(Long id) {
-        applicationRepository.deleteById(id);
+        if(applicationRepository.existsById(id))
+            applicationRepository.deleteById(id);
     }
 
     @Transactional
     public OutApplicationDto createApplication(InApplicationDto inApplicationDto) {
         Application application = new Application();
         application.setStatus(Status.PEN);
-        application.setJob(jobRepository.findById(inApplicationDto.jobId()).orElseThrow());
-        application.setJobSeeker(jobSeekerRepository.findById(inApplicationDto.jobSeekerId()).orElseThrow());
+        application.setJob(jobRepository.findById(inApplicationDto.jobId()).orElseThrow(() -> new ResourceNotFoundException(inApplicationDto.jobId()+" of job not found")));
+        application.setJobSeeker(jobSeekerRepository.findById(inApplicationDto.jobSeekerId()).orElseThrow(() -> new ResourceNotFoundException(inApplicationDto.jobSeekerId()+" of jobseeker not found")));
         applicationRepository.save(application);
         return mapEntityToDto(application);
     }

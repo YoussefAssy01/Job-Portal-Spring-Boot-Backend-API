@@ -1,4 +1,6 @@
 package org.joe.jobpoertalapp.dtos.incoming;
 
-public record InLoginRequest(String username, String password) {
+import jakarta.validation.constraints.NotBlank;
+
+public record InLoginRequest(@NotBlank String username,@NotBlank String password) {
 }

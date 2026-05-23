@@ -1,5 +1,6 @@
 package org.joe.jobpoertalapp.controllers;
 
+import jakarta.validation.Valid;
 import org.joe.jobpoertalapp.dtos.incoming.InLoginRequest;
 import org.joe.jobpoertalapp.dtos.incoming.InSignupRequest;
 import org.joe.jobpoertalapp.dtos.outgoing.OutSignupRequest;
@@ -28,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> generateToken(@RequestBody @NonNull InLoginRequest request) {
+    public ResponseEntity<String> generateToken(@RequestBody @NonNull @Valid InLoginRequest request) {
 
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
@@ -43,7 +44,7 @@ public class AuthController {
 
     }
     @PostMapping("/signup")
-    public ResponseEntity<OutSignupRequest> signup(@RequestBody InSignupRequest request) {
+    public ResponseEntity<OutSignupRequest> signup(@RequestBody @NonNull @Valid InSignupRequest request) {
         return ResponseEntity.ok(customUserDetailsService.addUser(request));
     };
 

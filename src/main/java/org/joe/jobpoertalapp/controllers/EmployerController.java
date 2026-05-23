@@ -1,9 +1,11 @@
 package org.joe.jobpoertalapp.controllers;
 
+import jakarta.validation.Valid;
 import org.joe.jobpoertalapp.dtos.incoming.InJobDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutApplicationDto;
 import org.joe.jobpoertalapp.dtos.outgoing.OutJobDto;
 import org.joe.jobpoertalapp.services.EmployerService;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +46,7 @@ public class EmployerController {
     }
 
     @PostMapping("/{id}/jobs")
-    public ResponseEntity<OutJobDto> postJob(@RequestBody InJobDto inJobDto, @PathVariable Long id){
+    public ResponseEntity<OutJobDto> postJob(@RequestBody @NonNull @Valid InJobDto inJobDto, @PathVariable Long id){
         return ResponseEntity.ok(employerService.postJob(inJobDto, id));
     }
 
