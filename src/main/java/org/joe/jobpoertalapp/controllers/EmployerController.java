@@ -47,9 +47,9 @@ public class EmployerController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/jobs")
-    public ResponseEntity<OutJobDto> postJob(@RequestBody @NonNull @Valid InJobDto inJobDto, @PathVariable Long id){
-        return ResponseEntity.ok(employerService.postJob(inJobDto, id));
+    @PostMapping("/jobs")
+    public ResponseEntity<OutJobDto> postJob(@RequestBody @NonNull @Valid InJobDto inJobDto){
+        return ResponseEntity.ok(employerService.postJob(inJobDto));
     }
 
 

@@ -23,6 +23,10 @@ public class JobService {
         this.employerRepository = employerRepository;
     }
 
+    public Job getJobById(long id) throws ResourceNotFoundException {
+        return jobRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Job not found"));
+    }
+
     public List<OutJobDto> getAllJobs() {
         return jobRepository.findAllOrderByStatusAsc()
                 .stream()

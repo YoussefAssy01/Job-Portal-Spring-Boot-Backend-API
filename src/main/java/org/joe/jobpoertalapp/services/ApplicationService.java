@@ -26,6 +26,10 @@ public class ApplicationService {
         this.jobSeekerRepository = jobSeekerRepository;
     }
 
+    public Application getApplicationById(Long id){
+        return applicationRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Application not found"));
+    }
+
     public List<OutApplicationDto> viewApplicationByJobId(Long jobId) {
         return applicationRepository.findAllByJobIdSortedByStatus(jobId).stream()
                 .map(this::mapEntityToDto)
