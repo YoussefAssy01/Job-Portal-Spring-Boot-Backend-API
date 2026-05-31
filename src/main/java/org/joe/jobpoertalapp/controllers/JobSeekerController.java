@@ -34,9 +34,9 @@ public class JobSeekerController {
             return ResponseEntity.ok(jobSeekerService.getAvailableJobs());
         }
     }
-    @GetMapping("{id}/applications")
-    public ResponseEntity<List<OutApplicationDto>> getApplications(@PathVariable Long id){
-        return ResponseEntity.ok(jobSeekerService.getMyApplications(id));
+    @GetMapping("me/applications")
+    public ResponseEntity<List<OutApplicationDto>> getApplications(){
+        return ResponseEntity.ok(jobSeekerService.getMyApplications());
     }
 
     @DeleteMapping("/applications/{id}")

@@ -62,11 +62,11 @@ public class ApplicationService {
     }
 
     @Transactional
-    public OutApplicationDto createApplication(InApplicationDto inApplicationDto) {
+    public OutApplicationDto createApplication(Long jobId,Long jobSeekerId) {
         Application application = new Application();
         application.setStatus(Status.PEN);
-        application.setJob(jobRepository.findById(inApplicationDto.jobId()).orElseThrow(() -> new ResourceNotFoundException(inApplicationDto.jobId()+" of job not found")));
-        application.setJobSeeker(jobSeekerRepository.findById(inApplicationDto.jobSeekerId()).orElseThrow(() -> new ResourceNotFoundException(inApplicationDto.jobSeekerId()+" of jobseeker not found")));
+        application.setJob(jobRepository.findById(jobId).orElseThrow(() -> new ResourceNotFoundException(jobId+" of job not found")));
+        application.setJobSeeker(jobSeekerRepository.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException(jobSeekerId+" of jobseeker not found")));
         applicationRepository.save(application);
         return mapEntityToDto(application);
     }
