@@ -2,6 +2,10 @@ JobPortal is a backend RESTful API built using Spring Boot that simulates a real
 
 The application follows a layered architecture:
 
+Exception Handling Layer - Spring Global Exception Handler
+
+Spring Security Filters - JWT Authentication Implemented
+
 Controller Layer – REST endpoints using Spring MVC
 
 Service Layer – Business logic and transaction management
@@ -26,6 +30,8 @@ Environment Variables – Secure configuration management
 
 Spring Security – Authentication & Authorization 
 
+Docker - Dockerziation 
+
 ⚙️ Core Features
 
 Employers can create and manage job postings
@@ -49,3 +55,4 @@ Transaction management for atomic operations
 - Microsoft SQL Server
 - RESTful API design
 - Spring Security
+- Docker
